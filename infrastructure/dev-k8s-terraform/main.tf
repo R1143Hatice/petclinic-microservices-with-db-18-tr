@@ -91,7 +91,7 @@ resource "aws_instance" "kube-master" {
   vpc_security_group_ids = [aws_security_group.k8s-sec-gr.id]
   key_name = "clarus"
   subnet_id = "subnet-09e2ced1b606ee1b8"  # select own subnet_id of us-east-1a
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-1d"
   tags = {
     Name = "kube-master"
     Project = "tera-kube-ans"
