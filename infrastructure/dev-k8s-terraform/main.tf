@@ -90,8 +90,8 @@ resource "aws_instance" "kube-master" {
   iam_instance_profile = aws_iam_instance_profile.petclinic-master-server-profile.name
   vpc_security_group_ids = [aws_security_group.k8s-sec-gr.id]
   key_name = "clarus"
-  subnet_id = "subnet-0fcc4649817f3e045"  # select own subnet_id of us-east-1a
-  availability_zone = "us-east-1d"
+  subnet_id = "subnet-0fcc4649817f3e045"  # select own subnet_id of us-east-1f
+  availability_zone = "us-east-1f"
   tags = {
     Name = "kube-master"
     Project = "tera-kube-ans"
@@ -106,8 +106,8 @@ resource "aws_instance" "worker-1" {
   instance_type = "t3a.medium"
   vpc_security_group_ids = [aws_security_group.k8s-sec-gr.id]
   key_name = "clarus"
-  subnet_id = "subnet-0fcc4649817f3e045"  # select own subnet_id of us-east-1a
-  availability_zone = "us-east-1d"
+  subnet_id = "subnet-0482de4066eb0c275"  # select own subnet_id of us-east-1f
+  availability_zone = "us-east-1f"
   tags = {
     Name = "worker-1"
     Project = "tera-kube-ans"
@@ -123,7 +123,7 @@ resource "aws_instance" "worker-2" {
   vpc_security_group_ids = [aws_security_group.k8s-sec-gr.id]
   key_name = "clarus"
   subnet_id = "subnet-0fcc4649817f3e045"  # select own subnet_id of us-east-1a
-  availability_zone = "us-east-1d"
+  availability_zone = "us-east-1f"
   tags = {
     Name = "worker-2"
     Project = "tera-kube-ans"
