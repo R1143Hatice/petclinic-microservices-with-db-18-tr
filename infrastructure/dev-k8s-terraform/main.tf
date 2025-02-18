@@ -6,13 +6,13 @@ variable "sec-gr-k8s" {
   default = "petclinic-k8s-sec-group"
 }
 
-data "aws_vpc" "name" {
+data "aws_vpc" "default" {
   default = true
 }
 
 resource "aws_security_group" "k8s-sec-gr" {
   name = var.sec-gr-k8s
-  vpc_id = data.aws_vpc.name.id
+  vpc_id = data.aws_vpc.default.id
   tags = {
     Name = var.sec-gr-k8s
   }
@@ -53,7 +53,6 @@ resource "aws_security_group" "k8s-sec-gr" {
   }
 }
 
-
 resource "aws_iam_role" "petclinic-master-server-s3-role" {
   name               = "petclinic-master-server-role"
   assume_role_policy = <<EOF
@@ -71,7 +70,6 @@ resource "aws_iam_role" "petclinic-master-server-s3-role" {
   ]
 }
 EOF
-
 }
 
 resource "aws_iam_role_policy_attachment" "petclinic_s3_policy" {
@@ -90,8 +88,7 @@ resource "aws_instance" "kube-master" {
   iam_instance_profile = aws_iam_instance_profile.petclinic-master-server-profile.name
   vpc_security_group_ids = [aws_security_group.k8s-sec-gr.id]
   key_name = "clarus"
-  subnet_id = "subnet-0482de4066eb0c275"  # select own subnet_id of us-east-1f
->>>>>>> 118b79678412d0407775a7fec84a2c420848b7c0
+  subnet_id = "subnet-0482de4066eb0c275"  # Kendi subnet ID'nizi kullanın
   availability_zone = "us-east-1f"
   tags = {
     Name = "kube-master"
@@ -107,7 +104,7 @@ resource "aws_instance" "worker-1" {
   instance_type = "t3a.medium"
   vpc_security_group_ids = [aws_security_group.k8s-sec-gr.id]
   key_name = "clarus"
-  subnet_id = "subnet-0482de4066eb0c275"  # select own subnet_id of us-east-1f
+  subnet_id = "subnet-0482de4066eb0c275"  # Kendi subnet ID'nizi kullanın
   availability_zone = "us-east-1f"
   tags = {
     Name = "worker-1"
@@ -123,8 +120,7 @@ resource "aws_instance" "worker-2" {
   instance_type = "t3a.medium"
   vpc_security_group_ids = [aws_security_group.k8s-sec-gr.id]
   key_name = "clarus"
-  subnet_id = "subnet-0482de4066eb0c275"  # select own subnet_id of us-east-1f
->>>>>>> 118b79678412d0407775a7fec84a2c420848b7c0
+  subnet_id = "subnet-0482de4066eb0c275"  # Kendi subnet ID'nizi kullanın
   availability_zone = "us-east-1f"
   tags = {
     Name = "worker-2"
@@ -135,20 +131,21 @@ resource "aws_instance" "worker-2" {
   }
 }
 
-output kube-master-ip {
+output "kube-master-ip" {
   value       = aws_instance.kube-master.public_ip
   sensitive   = false
   description = "public ip of the kube-master"
 }
 
-output worker-1-ip {
+output "worker-1-ip" {
   value       = aws_instance.worker-1.public_ip
   sensitive   = false
   description = "public ip of the worker-1"
 }
 
-output worker-2-ip {
+output "worker-2-ip" {
   value       = aws_instance.worker-2.public_ip
   sensitive   = false
   description = "public ip of the worker-2"
 }
+
